@@ -9,7 +9,8 @@
 </head>
 <body>
     <div class="container">
-                <a href="{{url('user/create')}}" class="btn btn-sm btn-danger mt-4">Add User</a>
+                <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-4">Add User</a>
+                <a href="{{url('user/logout')}}" class="btn btn-sm btn-danger mt-4">Logout</a>
 
       <table class="table table-striped">
         <thead>

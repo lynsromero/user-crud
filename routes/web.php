@@ -10,6 +10,8 @@ Route::get('/', function () {
 });
 
 Route::post('user/login' , [LoginController::class, 'login']);
+Route::get('user/logout' , [LoginController::class, 'logout']);
+
 
 Route::get('register', [RegisterController::class, 'register']);
 Route::post('users/register', [RegisterController::class, 'store']);

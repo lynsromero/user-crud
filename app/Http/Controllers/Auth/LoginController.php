@@ -20,4 +20,9 @@ class LoginController extends Controller
             dd('Creditential Not Matched');
         }
     }
+    public function  logout(){
+        
+        Auth::logout();
+        return redirect('/');
+    }
 }

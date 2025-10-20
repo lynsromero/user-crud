@@ -18,23 +18,32 @@
                         <h3 class="text-center mb-4">User Creation Form</h3>
 
                         <form action="{{ url('user/store') }}" method= "POST" >
-                          @csrf
+                            @csrf
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name"
-                                    placeholder="Enter your first name" required>
+                                <input type="text" class="form-control @error('first_name') is-invalid @enderror"
+                                    id="first_name" name="first_name" placeholder="Enter your first name" required>
+                                @error('first_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="last_name" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name"
-                                    placeholder="Enter your last name" required>
+                                <input type="text" class="form-control @error('last_name') is-invalid @enderror"
+                                    id="last_name" name="last_name" placeholder="Enter your last name" required>
+                                @error('last_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="Enter your email" required>
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -49,18 +58,27 @@
                                         value="female">
                                     <label class="form-check-label" for="female">Female</label>
                                 </div>
+                                @error('gender')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter your password" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" name="password" placeholder="Enter your password" required>
+                                @error('password')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="mo_no" class="form-label">Mobile Number</label>
-                                <input type="tel" class="form-control" id="mo_no" name="mo_no"
-                                    placeholder="Enter your mobile number" required>
+                                <input type="tel" class="form-control @error('mo_no') is-invalid @enderror"
+                                    id="mo_no" name="mo_no" placeholder="Enter your mobile number" required>
+                                @error('mo_no')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="d-grid">
