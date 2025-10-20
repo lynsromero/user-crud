@@ -17,6 +17,7 @@
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4">Registration Form</h3>
 
+
                         <form action="{{ url('users/register') }}" method="POST">
                             @csrf
                             <div class="mb-3">

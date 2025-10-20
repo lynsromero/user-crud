@@ -27,6 +27,6 @@ class RegisterController extends Controller
         $user->gender = $request->gender;
         $user->mo_no = $request->mo_no;
         $user->save();
-        return redirect('/');
+        return redirect('/')->with('success', 'Registerd Successfully');
     }
 }
