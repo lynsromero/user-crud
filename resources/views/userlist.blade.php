@@ -11,8 +11,34 @@
 
 <body>
     <div class="container">
-        <a href="{{ url('user/create') }}" class="btn btn-sm btn-primary mt-4">Add User</a>
-        <a href="{{ url('user/logout') }}" class="btn btn-sm btn-danger mt-4">Logout</a>
+
+
+
+        <div class="row">
+            <div class="col-6">
+                <a href="{{ url('user/create') }}" class="btn btn-sm btn-primary mt-4">Add User</a>
+                <a href="{{ url('user/logout') }}" class="btn btn-sm btn-danger mt-4">Logout</a>
+
+            </div>
+
+            <div class="col-6">
+            <form action="{{ url('user/search') }}" class="row">
+                <div class="col-10 mt-4">
+
+                    <input type="text" name="search" placeholder="Search Here" class="form-control">
+                </div>
+                <div class="col-2 mt-4">
+
+                    <button class="btn btn-success" type='submit'>Search</button>
+                </div>
+
+                
+            </form>
+        </div>
+
+            
+
+        </div>
 
         <table class="table table-striped">
             <thead>
