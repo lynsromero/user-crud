@@ -18,7 +18,7 @@
                         <h3 class="text-center mb-4">Registration Form</h3>
 
 
-                        <form action="{{ url('users/register') }}" method="POST">
+                        <form action="{{ url('users/register') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name</label>
@@ -60,6 +60,15 @@
                                     <label class="form-check-label" for="female">Female</label>
                                 </div>
                                 @error('gender')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="image"  >Image</label>
+                                    <input class="form-control @error('image') is-invalid @enderror" name="image" type="file">
+                                </div>                    
+                                @error('image')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>

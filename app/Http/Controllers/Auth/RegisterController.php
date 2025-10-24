@@ -17,6 +17,13 @@ class RegisterController extends Controller
 
     public function store(UserValidate $request)
     {
+   
+        $image = $request->file('image');
+        if($image){
+            $img_name = time().rand(10000, 100000).$image->getClientOriginalName();
+            $image->store('images', 'public');
+        }
+
 
 
         $user = new User();
@@ -26,6 +33,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->gender = $request->gender;
         $user->mo_no = $request->mo_no;
+        $user->image = isset($img_name) ? $img_name :null;
         $user->save();
         return redirect('/')->with('success', 'Registerd Successfully');
     }
