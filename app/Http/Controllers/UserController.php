@@ -5,15 +5,30 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserValidate;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
 
+        $search = $request->search;
         $users = User::paginate(5);
-        return view('userlist', compact('users'));
+        if ($search) {
+
+            $users = User::where('first_name', 'LIKE', '%' . $search . '%')
+                ->orwhere('last_name', 'LIKE', '%' . $search . '%')
+                ->orwhere('email', 'LIKE', '%' . $search . '%')
+                ->orwhere('mo_no', 'LIKE', '%' . $search . '%')
+                ->orwhere('gender', 'LIKE', '%' . $search . '%')
+                ->paginate(5);
+        }
+
+        return view('userlist', compact('users', 'search'));
     }
 
     public function create(Request $request)
@@ -59,13 +74,26 @@ class UserController extends Controller
         return redirect('user/list');
     }
 
-    public function show($id){
+    public function show($id)
+    {
         dd($id, "show");
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
+
         $search = $request->search;
-        $users = User::where('first_name', $search)->paginate(5);
-        return view('userlist' , compact('users'));
+        $users = User::paginate(5);
+
+        if ($search != '') {
+
+            $users = User::where('first_name', 'LIKE', '%' . $search . '%')
+                ->orwhere('last_name', 'LIKE', '%' . $search . '%')
+                ->orwhere('email', 'LIKE', '%' . $search . '%')
+                ->orwhere('mo_no', 'LIKE', '%' . $search . '%')
+                ->orwhere('gender', 'LIKE', '%' . $search . '%')
+                ->paginate(5);
+        }
+        return view('userlist', compact('users'));
     }
 }

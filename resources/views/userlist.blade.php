@@ -22,10 +22,10 @@
             </div>
 
             <div class="col-6">
-            <form action="{{ url('user/search') }}" class="row">
+            <form action="{{ url('user/list') }}" class="row">
                 <div class="col-10 mt-4">
 
-                    <input type="text" name="search" placeholder="Search Here" class="form-control">
+                    <input type="text" name="search" placeholder="Search Here" class="form-control" value="{{ $search }}">
                 </div>
                 <div class="col-2 mt-4">
 
@@ -70,7 +70,8 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            {!! $users->links() !!}
+            {!! $users->appends(['search' => $search])->links() !!}
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
