@@ -17,7 +17,7 @@ class UserController extends Controller
         }
 
         $search = $request->search;
-        $users = User::paginate(5);
+        $users = User::paginate(15);
         if ($search) {
 
             $users = User::where('first_name', 'LIKE', '%' . $search . '%')
@@ -38,6 +38,12 @@ class UserController extends Controller
     public function store(UserValidate $request)
     {
         $user = new User();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $user->image = $imageName;
+        }
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
@@ -60,6 +66,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                $oldImagePath = public_path('images') . '/' . $user->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $user->image = $imageName;
+        }
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->mo_no = $request->mo_no;

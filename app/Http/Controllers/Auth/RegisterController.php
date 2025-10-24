@@ -21,7 +21,8 @@ class RegisterController extends Controller
         $image = $request->file('image');
         if($image){
             $img_name = time().rand(10000, 100000).$image->getClientOriginalName();
-            $image->store('images', 'public');
+            $image->storeAs('images', $img_name, 'public');
+            $img_name = 'storage/images/' . $img_name;
         }
 
 
@@ -33,7 +34,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->gender = $request->gender;
         $user->mo_no = $request->mo_no;
-        $user->image = isset($img_name) ? $img_name :null;
+        $user->image = isset($img_name) ? $img_name : null;
         $user->save();
         return redirect('/')->with('success', 'Registerd Successfully');
     }

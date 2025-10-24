@@ -17,7 +17,7 @@
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4">User Edit Form</h3>
 
-                        <form action="{{ url('user/update/'.$user->id) }}" method= "POST">
+                        <form action="{{ url('user/update/'.$user->id) }}" method= "POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">ID</label>
@@ -45,6 +45,16 @@
                                 <label for="mo_no" class="form-label">Mobile Number</label>
                                 <input type="tel" class="form-control" id="mo_no" name="mo_no"
                                     value="{{ $user->mo_no }}" placeholder="Enter your mobile number" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Image</label>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                    id="image" name="image">
+                                @error('image')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <img src="{{ asset('images/' . $user->image) }}" alt="" width="80" height="80">
                             </div>
 
                             <div class="d-grid">

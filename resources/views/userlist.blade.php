@@ -22,21 +22,22 @@
             </div>
 
             <div class="col-6">
-            <form action="{{ url('user/list') }}" class="row">
-                <div class="col-10 mt-4">
+                <form action="{{ url('user/list') }}" class="row">
+                    <div class="col-10 mt-4">
 
-                    <input type="text" name="search" placeholder="Search Here" class="form-control" value="{{ $search }}">
-                </div>
-                <div class="col-2 mt-4">
+                        <input type="text" name="search" placeholder="Search Here" class="form-control"
+                            value="{{ $search }}">
+                    </div>
+                    <div class="col-2 mt-4">
 
-                    <button class="btn btn-success" type='submit'>Search</button>
-                </div>
+                        <button class="btn btn-success" type='submit'>Search</button>
+                    </div>
 
-                
-            </form>
-        </div>
 
-            
+                </form>
+            </div>
+
+
 
         </div>
 
@@ -49,6 +50,7 @@
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Mobile</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -61,6 +63,12 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->gender }}</td>
                         <td>{{ $user->mo_no }}</td>
+                        <td>
+                            @if ($user->image)
+                                
+                            <img src="{{ asset($user->image) }}" alt="" width="80" height="80">
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ url('user/edit/' . $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
                             <a href="{{ url('user/delete/' . $user->id) }}" class="btn btn-sm btn-danger">Delete</a>

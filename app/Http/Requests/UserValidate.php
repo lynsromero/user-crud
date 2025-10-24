@@ -26,7 +26,8 @@ class UserValidate extends FormRequest
             'last_name' => 'required|max:20|min:3',
             'email' => 'email|unique:users',
             'password' => 'required|min:6|max:10',
-            'mo_no' => 'required|digits_between:5,11'
+            'mo_no' => 'required|digits_between:5,11',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
         ];
     }
 }

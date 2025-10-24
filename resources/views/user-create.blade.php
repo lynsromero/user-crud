@@ -17,7 +17,7 @@
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4">User Creation Form</h3>
 
-                        <form action="{{ url('user/store') }}" method= "POST" >
+                        <form action="{{ url('user/store') }}" method= "POST" enctype="multipart/form-data" >
                             @csrf
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name</label>
@@ -77,6 +77,15 @@
                                 <input type="tel" class="form-control @error('mo_no') is-invalid @enderror"
                                     id="mo_no" name="mo_no" placeholder="Enter your mobile number" required>
                                 @error('mo_no')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Image</label>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                    id="image" name="image">
+                                @error('image')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
