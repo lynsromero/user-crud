@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use function PHPUnit\Framework\fileExists;
+
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -16,8 +18,8 @@ class UserController extends Controller
             return redirect('/');
         }
 
-        $search = $request->search;
         $users = User::paginate(15);
+        $search = $request->search;
         if ($search) {
 
             $users = User::where('first_name', 'LIKE', '%' . $search . '%')
@@ -33,23 +35,34 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
         return view('user-create');
     }
     public function store(UserValidate $request)
     {
-        $user = new User();
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $user->image = $imageName;
+        if (!Auth::user()) {
+            return redirect('/');
         }
+        $image = $request->file('image');
+        if ($image) {
+            $img_name = time() . rand(10000, 100000) . $image->getClientOriginalName();
+            $image->storeAs('images', $img_name, 'public');
+            $img_name = 'storage/images/' . $img_name;
+        }
+
+
+
+        $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->gender = $request->gender;
         $user->mo_no = $request->mo_no;
+        $user->hobby = ($request->hobby) ? implode(' , ', $request->hobby) : null;
+        $user->image = isset($img_name) ? $img_name : null;
         $user->save();
         return redirect('user/list');
     }
@@ -58,6 +71,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
         $user = User::find($id);
 
         return view('user-edit', compact('user'));
@@ -65,53 +81,37 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
         $user = User::find($id);
-        if ($request->hasFile('image')) {
-            if ($user->image) {
-                $oldImagePath = public_path('images') . '/' . $user->image;
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
-                }
+        $image = $request->file('image');
+        if ($image) {
+            if ($user->image && file_exists($user->image)) {
+                unlink($user->image);
             }
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $user->image = $imageName;
+            $img_name = time() . rand(10000, 100000) . $image->getClientOriginalName();
+            $image->storeAs('images', $img_name, 'public');
+            $img_name = 'storage/images/' . $img_name;
         }
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->mo_no = $request->mo_no;
+        $user->image = isset($img_name) ? $img_name : $user->image;
         $user->save();
         return redirect('user/list');
     }
 
     public function destroy($id)
     {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
         $user = User::find($id);
+        if ($user->image && file_exists($user->image)) {
+            unlink($user->image);
+        }
         $user->delete();
         return redirect('user/list');
-    }
-
-    public function show($id)
-    {
-        dd($id, "show");
-    }
-
-    public function search(Request $request)
-    {
-
-        $search = $request->search;
-        $users = User::paginate(5);
-
-        if ($search != '') {
-
-            $users = User::where('first_name', 'LIKE', '%' . $search . '%')
-                ->orwhere('last_name', 'LIKE', '%' . $search . '%')
-                ->orwhere('email', 'LIKE', '%' . $search . '%')
-                ->orwhere('mo_no', 'LIKE', '%' . $search . '%')
-                ->orwhere('gender', 'LIKE', '%' . $search . '%')
-                ->paginate(5);
-        }
-        return view('userlist', compact('users'));
     }
 }

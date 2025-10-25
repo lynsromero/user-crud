@@ -50,6 +50,7 @@
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Mobile</th>
+                    <th>Hobby</th>
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
@@ -63,11 +64,9 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->gender }}</td>
                         <td>{{ $user->mo_no }}</td>
+                        <td>{{ $user->hobby }}</td>
                         <td>
-                            @if ($user->image)
-                                
-                            <img src="{{ asset($user->image) }}" alt="" width="80" height="80">
-                            @endif
+                            {!! $user->getimg() !!}
                         </td>
                         <td>
                             <a href="{{ url('user/edit/' . $user->id) }}" class="btn btn-sm btn-primary">Edit</a>

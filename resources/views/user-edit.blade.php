@@ -47,14 +47,12 @@
                                     value="{{ $user->mo_no }}" placeholder="Enter your mobile number" required>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                    id="image" name="image">
-                                @error('image')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                                <img src="{{ asset('images/' . $user->image) }}" alt="" width="80" height="80">
+                            <div class="mb-3 form-group">
+                                <label for="image">Image</label>
+                                <input type="file" class="form-control" name="image">
+                                @if ($user->image)
+                                    {!! $user->getimg() !!}                                    
+                                @endif
                             </div>
 
                             <div class="d-grid">

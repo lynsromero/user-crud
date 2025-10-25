@@ -25,7 +25,5 @@ Route::prefix('user')->group(function(){
         Route::get('edit/{id}' , 'edit');
         Route::post('update/{id}' , 'update');
         Route::get('delete/{id}' , 'destroy');
-        Route::get('search' , 'search');
-        Route::get('show/{id}' , 'show');
     });
 });

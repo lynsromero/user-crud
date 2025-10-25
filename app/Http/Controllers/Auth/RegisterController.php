@@ -34,6 +34,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->gender = $request->gender;
         $user->mo_no = $request->mo_no;
+        $user->hobby = ($request->hobby) ? implode(' , ',$request->hobby): null;
         $user->image = isset($img_name) ? $img_name : null;
         $user->save();
         return redirect('/')->with('success', 'Registerd Successfully');
